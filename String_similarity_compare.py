@@ -88,7 +88,7 @@ def compare_2_words(word1,word2):
 
 s1=input("enter first sentense ")
 s2=input("enter second sentense ")
-match=compare(s1,s2)
+match=int(compare(s1,s2))
 print("match ratio is {} %".format(match))
 
 
