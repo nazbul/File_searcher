@@ -1,4 +1,4 @@
-# my_repo
+# Sentense similarity comparison
 This is a program to compare alphabetical similarity between two words or sentenses.
 There are two main functions in this code.
 1. compare- it is used for comparing two snetences . takes two sentenses as two arguments
