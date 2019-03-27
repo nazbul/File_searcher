@@ -1,4 +1,4 @@
-import Sentense_comparator
+import String_similarity_compare
 import os
 import random
 import time
