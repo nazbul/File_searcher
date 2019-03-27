@@ -4,6 +4,8 @@ There are two main functions in this code.
 1. compare- it is used for comparing two snetences . takes two sentenses as two arguments
 2. compare_2_words- it is used to compare two words similarity. takes two words as two arguments
 
+# File_searcher
+
 To search a file you can use the file_searcher python module. Please be sure that the Sentence_similarity_comparison file in in the same
 directory of file_searcher module. 
 how to use file_searcher module?
