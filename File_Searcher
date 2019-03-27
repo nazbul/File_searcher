@@ -1,4 +1,4 @@
-from my_custom_lib import Sentense_comparator
+import Sentense_comparator
 import os
 import random
 import time
