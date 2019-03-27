@@ -1,0 +1,104 @@
+from my_custom_lib import Sentense_comparator
+import os
+import random
+import time
+thres=95
+min_thres=60
+found=False
+found_file=None
+ext={"audio":[".mp3",".wav"],"video":['.mp4','.avi','.mkv','.flv','.mpg','.wmv','.mov','.vob','.m4a','divx','webm','.3gp'],
+     "doc":['.txt','.xls','xlsx','docx','.pdf','.csv','.doc'],"pic":['.jpg','.png','.bmp','jpeg','gif']}
+   
+ 
+def search_any(root_dir,type):
+    file_list=[]
+    folder=None
+    try:
+        ext_list=ext[type]
+    except:
+        print("Invalid type of file")
+        exit()
+    count=0 
+    for (dirname, dirs, files) in os.walk(root_dir):
+        for file in files:
+            if file[-4:].lower() in ext_list:
+                file_list.append(dirname+"/"+file)
+                count=count+1
+                if count>200:
+                    break
+    if len(file_list)>0:
+        file=random.choice(file_list)
+        folder='\\'.join(file.split('\\')[0:-1])
+    else:
+        file=None
+    return file,folder
+    
+            
+    
+    
+    
+    
+      
+def Search(sstring,root_dir,type):
+    if not os.path.exists(root_dir):
+        print("Root directory not exist")
+        return None,None
+    folder=None
+    if sstring=="any":
+        file=search_any(root_dir,type)
+        return file
+    global thres
+    global found
+    global found_file
+    ext_list=[]
+    for (dirname, dirs, files) in os.walk(root_dir):
+        match_list=[]
+        file_list=[]
+        for file in os.listdir(dirname):
+            if type!="any":
+                try:
+                    ext_list=ext[type]
+                except:
+                    print("Invalid type of file")
+                    exit()
+                if file[-4:].lower() in ext_list:
+                    filewithpath=dirname+"\\"+file
+                    filename=filewithpath.split("\\")[-1][0:-4]
+                    match=int(Sentense_comparator.compare(sstring,filename))
+                    match_list.append(match)
+                    file_list.append(filewithpath)
+                    #print("list of files-->",file_list)
+                    #time.sleep(.2)
+            else:
+                filewithpath=dirname+"\\"+file
+                filename=filewithpath.split("\\")[-1][0:-4]
+                match=int(Sentense_comparator.compare(sstring,filename))
+                match_list.append(match)
+                file_list.append(filewithpath)
+                
+            
+        
+        if len(match_list)!=0:
+            max_match=max(match_list)
+            #print("match: {} thresold: {}".format(max_match,thres))
+            #time.sleep(.5)
+            if max_match>thres:
+                found_file=file_list[match_list.index(max(match_list))]
+                #print(found_file)
+                found=True
+    
+    if not found:
+
+        if thres<min_thres:
+            return None
+        else:
+            thres = thres-2
+            #print("trying again with thresold ",thres)        
+            Search(sstring, root_dir,type)
+    if found :
+        folder='\\'.join(found_file.split('\\')[0:-1])
+        #print("FOLDER:",folder)
+        return found_file,folder
+    if not found:
+        return found_file,folder
+    
